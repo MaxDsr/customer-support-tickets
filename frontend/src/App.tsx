@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Ticket, TicketStatus } from './types'
 import { api, PRIORITY_LABELS, STATUS_LABELS } from './api/client'
 import './App.css'
@@ -79,24 +80,18 @@ function TicketCard({ ticket, onStatusChange, onDelete }: TicketCardProps) {
 }
 
 export default function App() {
-  const [tickets, setTickets] = useState<Ticket[]>([])
-  const [loading, setLoading] = useState(true)
-  const [fetchError, setFetchError] = useState<string | null>(null)
-
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    api.tickets
-      .list()
-      .then((data) => setTickets(data))
-      .catch((e: Error) => setFetchError(e.message))
-      .finally(() => setLoading(false))
-  }, [])
+  const { data: tickets = [], isLoading, isError } = useQuery({
+    queryKey: ['tickets', statusFilter],
+    queryFn: () => api.tickets.list(statusFilter),
+  })
 
   const handleStatusChange = async (id: string, status: TicketStatus) => {
     try {
-      const updated = await api.tickets.update(id, { status })
-      setTickets((prev) => prev.map((t) => (t.id === id ? updated : t)))
+      await api.tickets.update(id, { status })
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
     } catch (e) {
       console.error('Failed to update ticket:', e)
     }
@@ -105,20 +100,10 @@ export default function App() {
   const handleDelete = async (id: string) => {
     try {
       await api.tickets.delete(id)
-      setTickets((prev) => prev.filter((t) => t.id !== id))
+      queryClient.invalidateQueries({ queryKey: ['tickets'] })
     } catch (e) {
       console.error('Failed to delete ticket:', e)
     }
-  }
-
-  const filteredTickets =
-    statusFilter === 'all' ? tickets : tickets.filter((t) => t.status === statusFilter)
-
-  const counts = {
-    all: tickets.length,
-    open: tickets.filter((t) => t.status === 'open').length,
-    pending: tickets.filter((t) => t.status === 'pending').length,
-    closed: tickets.filter((t) => t.status === 'closed').length,
   }
 
   return (
@@ -129,9 +114,11 @@ export default function App() {
             <span className="app-brand-icon" aria-hidden="true">🎫</span>
             <h1 className="app-title">Customer Support Tickets</h1>
           </div>
-          <span className="app-ticket-count">
-            {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
-          </span>
+          {!isLoading && !isError && (
+            <span className="app-ticket-count">
+              {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
+            </span>
+          )}
         </div>
       </header>
 
@@ -142,15 +129,12 @@ export default function App() {
             <ul className="stats-list">
               <li className="stats-item">
                 <span className="badge badge--open">Open</span>
-                <span className="stats-count">{counts.open}</span>
               </li>
               <li className="stats-item">
                 <span className="badge badge--pending">Pending</span>
-                <span className="stats-count">{counts.pending}</span>
               </li>
               <li className="stats-item">
                 <span className="badge badge--closed">Closed</span>
-                <span className="stats-count">{counts.closed}</span>
               </li>
             </ul>
           </section>
@@ -169,41 +153,42 @@ export default function App() {
                   onClick={() => setStatusFilter(s)}
                 >
                   {s === 'all' ? 'All' : STATUS_LABELS[s]}
-                  <span className="filter-btn-count">{counts[s]}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          {loading && (
+          {isLoading && (
             <div className="state-message">
               <span className="spinner" aria-hidden="true" />
               Loading tickets…
             </div>
           )}
 
-          {fetchError && (
+          {isError && (
             <div className="state-message state-message--error" role="alert">
-              Could not load tickets: {fetchError}
+              Could not load tickets. Please check your connection and try again.
             </div>
           )}
 
-          {!loading && !fetchError && filteredTickets.length === 0 && (
+          {!isLoading && !isError && tickets.length === 0 && (
             <div className="state-message state-message--empty">
               {statusFilter === 'all' ? 'No tickets yet.' : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
             </div>
           )}
 
-          <div className="tickets-list">
-            {filteredTickets.map((ticket) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onStatusChange={handleStatusChange}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          {!isLoading && !isError && tickets.length > 0 && (
+            <div className="tickets-list">
+              {tickets.map((ticket) => (
+                <TicketCard
+                  key={ticket.id}
+                  ticket={ticket}
+                  onStatusChange={handleStatusChange}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>

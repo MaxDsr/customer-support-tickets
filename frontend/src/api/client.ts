@@ -1,5 +1,7 @@
 import type { Ticket, TicketPriority, TicketStatus } from '../types'
 
+type StatusFilter = TicketStatus | 'all'
+
 const BASE = '/api'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -17,7 +19,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   tickets: {
-    list: () => request<Ticket[]>('/tickets'),
+    list: (status?: StatusFilter) => {
+      const qs = status && status !== 'all' ? `?status=${status}` : ''
+      return request<Ticket[]>(`/tickets${qs}`)
+    },
     update: (id: string, data: Partial<Pick<Ticket, 'title' | 'description' | 'priority' | 'status' | 'customer'>>) =>
       request<Ticket>(`/tickets/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     delete: (id: string) => request<void>(`/tickets/${id}`, { method: 'DELETE' }),

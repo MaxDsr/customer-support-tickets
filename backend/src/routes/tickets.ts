@@ -3,9 +3,15 @@ import { db, Ticket, TicketPriority, TicketStatus } from '../db.js'
 
 const router = Router()
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   await db.read()
-  res.json(db.data.tickets)
+  const { status } = req.query
+  const validStatuses = ['open', 'pending', 'closed']
+  const tickets =
+    typeof status === 'string' && validStatuses.includes(status)
+      ? db.data.tickets.filter((t) => t.status === status)
+      : db.data.tickets
+  res.json(tickets)
 })
 
 router.get('/:id', async (req: Request, res: Response) => {
