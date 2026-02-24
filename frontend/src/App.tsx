@@ -1,6 +1,6 @@
-import { useState, useEffect, FormEvent } from 'react'
-import type { Ticket, TicketStatus, TicketPriority } from './types'
-import { api, STATUS_LABELS, PRIORITY_LABELS } from './api/client'
+import { useState, useEffect } from 'react'
+import type { Ticket, TicketStatus } from './types'
+import { api, PRIORITY_LABELS, STATUS_LABELS } from './api/client'
 import './App.css'
 
 type StatusFilter = TicketStatus | 'all'
@@ -83,16 +83,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState<string | null>(null)
 
-  const [form, setForm] = useState({
-    title: '',
-    description: '',
-    priority: 'medium' as TicketPriority,
-    customerName: '',
-    customerEmail: '',
-  })
-  const [formError, setFormError] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
 
   useEffect(() => {
@@ -102,30 +92,6 @@ export default function App() {
       .catch((e: Error) => setFetchError(e.message))
       .finally(() => setLoading(false))
   }, [])
-
-  const handleCreate = async (e: FormEvent) => {
-    e.preventDefault()
-    if (!form.title.trim() || !form.description.trim() || !form.customerName.trim() || !form.customerEmail.trim()) {
-      setFormError('All fields are required.')
-      return
-    }
-    setSubmitting(true)
-    setFormError(null)
-    try {
-      const ticket = await api.tickets.create({
-        title: form.title.trim(),
-        description: form.description.trim(),
-        priority: form.priority,
-        customer: { name: form.customerName.trim(), email: form.customerEmail.trim() },
-      })
-      setTickets((prev) => [ticket, ...prev])
-      setForm({ title: '', description: '', priority: 'medium', customerName: '', customerEmail: '' })
-    } catch (e: unknown) {
-      setFormError(e instanceof Error ? e.message : 'Failed to create ticket.')
-    } finally {
-      setSubmitting(false)
-    }
-  }
 
   const handleStatusChange = async (id: string, status: TicketStatus) => {
     try {
@@ -171,74 +137,6 @@ export default function App() {
 
       <main className="app-main">
         <aside className="sidebar">
-          <section className="card new-ticket-card">
-            <h2 className="section-title">New Ticket</h2>
-            <form onSubmit={handleCreate} noValidate>
-              {formError && <p className="form-error" role="alert">{formError}</p>}
-              <div className="form-group">
-                <label htmlFor="title" className="form-label">Title</label>
-                <input
-                  id="title"
-                  type="text"
-                  className="form-input"
-                  placeholder="Brief summary of the issue"
-                  value={form.title}
-                  onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
-                  maxLength={120}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="description" className="form-label">Description</label>
-                <textarea
-                  id="description"
-                  className="form-textarea"
-                  placeholder="Detailed description of the issue…"
-                  rows={4}
-                  value={form.description}
-                  onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="priority" className="form-label">Priority</label>
-                <select
-                  id="priority"
-                  className="form-input"
-                  value={form.priority}
-                  onChange={(e) => setForm((p) => ({ ...p, priority: e.target.value as TicketPriority }))}
-                >
-                  {(Object.entries(PRIORITY_LABELS) as [TicketPriority, string][]).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="customerName" className="form-label">Customer Name</label>
-                <input
-                  id="customerName"
-                  type="text"
-                  className="form-input"
-                  placeholder="e.g. Acme BV"
-                  value={form.customerName}
-                  onChange={(e) => setForm((p) => ({ ...p, customerName: e.target.value }))}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="customerEmail" className="form-label">Customer Email</label>
-                <input
-                  id="customerEmail"
-                  type="email"
-                  className="form-input"
-                  placeholder="e.g. it@acme.com"
-                  value={form.customerEmail}
-                  onChange={(e) => setForm((p) => ({ ...p, customerEmail: e.target.value }))}
-                />
-              </div>
-              <button type="submit" className="btn btn--primary btn--full" disabled={submitting}>
-                {submitting ? 'Creating…' : 'Create Ticket'}
-              </button>
-            </form>
-          </section>
-
           <section className="card stats-card">
             <h2 className="section-title">Overview</h2>
             <ul className="stats-list">
@@ -292,7 +190,7 @@ export default function App() {
 
           {!loading && !fetchError && filteredTickets.length === 0 && (
             <div className="state-message state-message--empty">
-              {statusFilter === 'all' ? 'No tickets yet. Create one!' : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
+              {statusFilter === 'all' ? 'No tickets yet.' : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
             </div>
           )}
 

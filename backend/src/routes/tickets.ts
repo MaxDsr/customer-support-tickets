@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express'
-import { randomUUID } from 'node:crypto'
 import { db, Ticket, TicketPriority, TicketStatus } from '../db.js'
 
 const router = Router()
@@ -17,33 +16,6 @@ router.get('/:id', async (req: Request, res: Response) => {
     return
   }
   res.json(ticket)
-})
-
-router.post('/', async (req: Request, res: Response) => {
-  const { title, description, priority, customer } = req.body as Pick<Ticket, 'title' | 'description' | 'priority' | 'customer'>
-
-  if (!title || !description || !priority || !customer?.name || !customer?.email) {
-    res.status(400).json({ message: 'title, description, priority, customer.name, and customer.email are required' })
-    return
-  }
-
-  const validPriorities: TicketPriority[] = ['low', 'medium', 'high']
-  if (!validPriorities.includes(priority)) {
-    res.status(400).json({ message: `priority must be one of: ${validPriorities.join(', ')}` })
-    return
-  }
-
-  const ticket: Ticket = {
-    id: randomUUID(),
-    title: String(title),
-    description: String(description),
-    priority,
-    status: 'open',
-    customer: { name: String(customer.name), email: String(customer.email) },
-    updatedAt: new Date().toISOString(),
-  }
-  await db.update((data) => data.tickets.push(ticket))
-  res.status(201).json(ticket)
 })
 
 router.patch('/:id', async (req: Request, res: Response) => {

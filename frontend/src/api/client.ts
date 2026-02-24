@@ -18,8 +18,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   tickets: {
     list: () => request<Ticket[]>('/tickets'),
-    create: (data: Pick<Ticket, 'title' | 'description' | 'priority' | 'customer'>) =>
-      request<Ticket>('/tickets', { method: 'POST', body: JSON.stringify(data) }),
     update: (id: string, data: Partial<Pick<Ticket, 'title' | 'description' | 'priority' | 'status' | 'customer'>>) =>
       request<Ticket>(`/tickets/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     delete: (id: string) => request<void>(`/tickets/${id}`, { method: 'DELETE' }),
