@@ -1,0 +1,304 @@
+{
+  "tickets": [
+    {
+      "id": "a1b2c3d4-e5f6-4789-abcd-ef0123456701",
+      "title": "Customer can't reset password. Customer needs it",
+      "description": "Customer reports that the password reset email never arrives. They have checked spam folder and confirmed the email address is correct. Issue started after our last auth service deployment.",
+      "priority": "high",
+      "status": "open",
+      "customer": {
+        "name": "Acme BV",
+        "email": "it@acme.com"
+      },
+      "updatedAt": "2026-02-24T08:12:00.000Z"
+    },
+    {
+      "id": "b2c3d4e5-f6a7-4890-bcde-f01234567802",
+      "title": "Invoice not received for February. Customer needs it",
+      "description": "Customer did not receive their monthly invoice for February. Billing cycle ran on the 1st but no PDF was generated or sent. Finance team is waiting to process payment.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "TechCorp Inc",
+        "email": "billing@techcorp.io"
+      },
+      "updatedAt": "2026-02-24T12:44:02.905Z"
+    },
+    {
+      "id": "c3d4e5f6-a7b8-4901-cdef-012345678903",
+      "title": "App crashes on login with SSO. Customer needs it",
+      "description": "Users logging in via SAML SSO get a white screen crash immediately after the identity provider redirects back. Regular username/password login works fine. Affects all users in our org.",
+      "priority": "high",
+      "status": "open",
+      "customer": {
+        "name": "BuildFast Ltd",
+        "email": "support@buildfast.com"
+      },
+      "updatedAt": "2026-02-24T07:50:00.000Z"
+    },
+    {
+      "id": "d4e5f6a7-b8c9-4012-def0-123456789004",
+      "title": "2FA codes not being delivered via SMS. Customer needs it",
+      "description": "After enabling two-factor authentication, users are not receiving SMS codes. The app says the code was sent but nothing arrives. TOTP app works fine as a workaround but SMS is required for some users.",
+      "priority": "high",
+      "status": "open",
+      "customer": {
+        "name": "Zenith Group",
+        "email": "admin@zenith.group"
+      },
+      "updatedAt": "2026-02-22T11:20:00.000Z"
+    },
+    {
+      "id": "e5f6a7b8-c9d0-4123-ef01-234567890105",
+      "title": "Dashboard loading extremely slowly",
+      "description": "The main analytics dashboard takes 25-30 seconds to load. This started after last week's update. We have around 50,000 records in our account which may be related.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Maple Systems",
+        "email": "ops@maplesystems.ca"
+      },
+      "updatedAt": "2026-02-21T16:05:00.000Z"
+    },
+    {
+      "id": "f6a7b8c9-d0e1-4234-f012-345678901206",
+      "title": "Feature request: dark mode UI",
+      "description": "Our team works late hours and a dark mode option would reduce eye strain significantly. Many of our users have requested this. Would love to see it in an upcoming release.",
+      "priority": "low",
+      "status": "open",
+      "customer": {
+        "name": "Horizon Labs",
+        "email": "product@horizon.dev"
+      },
+      "updatedAt": "2026-02-20T09:00:00.000Z"
+    },
+    {
+      "id": "a7b8c9d0-e1f2-4345-0123-456789012307",
+      "title": "Webhook not triggering on order events",
+      "description": "Our configured webhook endpoint for order.created and order.updated events stopped firing 3 days ago. The endpoint is healthy (200 responses) and no configuration was changed on our end.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Orbita eCommerce",
+        "email": "dev@orbita.shop"
+      },
+      "updatedAt": "2026-02-23T10:45:00.000Z"
+    },
+    {
+      "id": "b8c9d0e1-f2a3-4456-1234-567890123408",
+      "title": "Billing charged twice for the same period",
+      "description": "Our credit card was charged twice on February 1st for the same subscription. Both charges appear on our bank statement. We need a refund for the duplicate charge immediately.",
+      "priority": "high",
+      "status": "closed",
+      "customer": {
+        "name": "Vortex Media",
+        "email": "finance@vortex.media"
+      },
+      "updatedAt": "2026-02-24T11:55:52.990Z"
+    },
+    {
+      "id": "c9d0e1f2-a3b4-4567-2345-678901234509",
+      "title": "API rate limits too restrictive for our use case",
+      "description": "We are hitting the 100 requests/minute rate limit during our peak hours (9-11am EST). Our integration syncs data every few seconds and we need a higher limit or a burst allowance.",
+      "priority": "low",
+      "status": "open",
+      "customer": {
+        "name": "DataStream Co",
+        "email": "api@datastream.co"
+      },
+      "updatedAt": "2026-02-18T13:15:00.000Z"
+    },
+    {
+      "id": "e1f2a3b4-c5d6-4789-4567-890123456711",
+      "title": "Email notifications stopped after config change",
+      "description": "Since updating our SMTP settings to a new mail relay, no automated emails are being sent. This includes ticket confirmations, weekly digests, and alert emails. Checked the config and credentials look correct.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "SkyBridge Ltd",
+        "email": "it@skybridge.com"
+      },
+      "updatedAt": "2026-02-20T11:00:00.000Z"
+    },
+    {
+      "id": "f2a3b4c5-d6e7-4890-5678-901234567812",
+      "title": "User unable to be added to team account",
+      "description": "When inviting a new user to our team, they receive the invitation email but clicking the accept link returns a 403 Forbidden error. This affects only new users — existing team members can log in fine.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "Frostbyte Software",
+        "email": "admin@frostbyte.dev"
+      },
+      "updatedAt": "2026-02-21T08:45:00.000Z"
+    },
+    {
+      "id": "a3b4c5d6-e7f8-4901-6789-012345678913",
+      "title": "Wrong timezone displayed in activity log. Customer needs it",
+      "description": "All timestamps in our activity log are shown in UTC instead of our configured account timezone (America/Chicago). This makes it hard to correlate events with local business hours.",
+      "priority": "low",
+      "status": "pending",
+      "customer": {
+        "name": "Summit Retail",
+        "email": "ops@summitretail.com"
+      },
+      "updatedAt": "2026-02-17T14:30:00.000Z"
+    },
+    {
+      "id": "b4c5d6e7-f8a9-4012-7890-123456789014",
+      "title": "Custom domain setup failing with SSL error",
+      "description": "We followed the docs to set up our custom domain (support.ourcompany.io) but the SSL certificate never provisions. The domain DNS is correctly pointed at your servers. Browser shows NET::ERR_CERT_COMMON_NAME_INVALID.",
+      "priority": "high",
+      "status": "pending",
+      "customer": {
+        "name": "Nova Startups",
+        "email": "devops@novastartups.io"
+      },
+      "updatedAt": "2026-02-22T09:15:00.000Z"
+    },
+    {
+      "id": "c5d6e7f8-a9b0-4123-8901-234567890115",
+      "title": "Search results returning incorrect items",
+      "description": "Full-text search across our ticket database is returning unrelated results. Searching for 'payment failure' returns tickets about onboarding and feature requests. The relevance scoring seems completely off.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "Prism Analytics",
+        "email": "support@prismanalytics.com"
+      },
+      "updatedAt": "2026-02-19T16:40:00.000Z"
+    },
+    {
+      "id": "d6e7f8a9-b0c1-4234-9012-345678901216",
+      "title": "Mobile app not syncing with web version",
+      "description": "Changes made on the web app (new tickets, status updates) do not appear in the iOS mobile app unless the app is fully restarted. Real-time sync appears broken on mobile.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "Cascade Foods",
+        "email": "it@cascadefoods.com"
+      },
+      "updatedAt": "2026-02-18T10:00:00.000Z"
+    },
+    {
+      "id": "e7f8a9b0-c1d2-4345-0123-456789012317",
+      "title": "SSO configuration broken after IdP update",
+      "description": "Our Okta SSO stopped working after Okta pushed an update to our tenant. The SAML assertions look correct in our logs but users receive an authentication error on your end. Need urgent resolution.",
+      "priority": "high",
+      "status": "pending",
+      "customer": {
+        "name": "Ironclad Corp",
+        "email": "sso@ironclad.com"
+      },
+      "updatedAt": "2026-02-23T06:30:00.000Z"
+    },
+    {
+      "id": "f8a9b0c1-d2e3-4456-1234-567890123418",
+      "title": "File upload fails for files larger than 10 MB",
+      "description": "When trying to attach design assets (Figma exports, large PNGs) to tickets, the upload fails silently for anything over ~10 MB. No error message is shown. Smaller files upload fine.",
+      "priority": "low",
+      "status": "pending",
+      "customer": {
+        "name": "Glimmer Studio",
+        "email": "studio@glimmer.design"
+      },
+      "updatedAt": "2026-02-16T12:55:00.000Z"
+    },
+    {
+      "id": "a9b0c1d2-e3f4-4567-2345-678901234519",
+      "title": "Payment method declined on subscription renewal",
+      "description": "Our subscription failed to renew because our card on file was declined. We have updated the payment method but the renewal has not automatically retried. Service has been suspended.",
+      "priority": "high",
+      "status": "closed",
+      "customer": {
+        "name": "Redwood Finance",
+        "email": "billing@redwoodfinance.com"
+      },
+      "updatedAt": "2026-02-10T17:00:00.000Z"
+    },
+    {
+      "id": "b0c1d2e3-f4a5-4678-3456-789012345620",
+      "title": "Audit log entries missing for last week",
+      "description": "Our compliance team noticed that audit log entries from Feb 10–17 are missing entirely. This is a regulatory requirement and we need the logs restored or explained immediately.",
+      "priority": "high",
+      "status": "closed",
+      "customer": {
+        "name": "Pinnacle Health",
+        "email": "compliance@pinnaclehealth.org"
+      },
+      "updatedAt": "2026-02-18T14:00:00.000Z"
+    },
+    {
+      "id": "c1d2e3f4-a5b6-4789-4567-890123456721",
+      "title": "Salesforce integration returning 401 errors. Customer needs it",
+      "description": "Our Salesforce integration suddenly started throwing 401 Unauthorized errors. The OAuth token refresh is failing. This breaks our entire lead-to-ticket pipeline and is business-critical.",
+      "priority": "high",
+      "status": "closed",
+      "customer": {
+        "name": "CrestView CRM",
+        "email": "crm@crestview.io"
+      },
+      "updatedAt": "2026-02-15T09:30:00.000Z"
+    },
+    {
+      "id": "d2e3f4a5-b6c7-4890-5678-901234567822",
+      "title": "Refund not processed after account cancellation",
+      "description": "We cancelled our account on Feb 5th and were told a prorated refund would be issued within 5-7 business days. It has been 15 days and the refund has not appeared on our statement.",
+      "priority": "medium",
+      "status": "closed",
+      "customer": {
+        "name": "Lakeside Ventures",
+        "email": "accounts@lakeside.vc"
+      },
+      "updatedAt": "2026-02-20T11:45:00.000Z"
+    },
+    {
+      "id": "e3f4a5b6-c7d8-4901-6789-012345678923",
+      "title": "Report generation timing out for 90-day range",
+      "description": "Generating a 90-day performance report consistently times out after 30 seconds. 30-day reports work fine. We need this for our quarterly board presentation next week.",
+      "priority": "medium",
+      "status": "closed",
+      "customer": {
+        "name": "Atlas Consulting",
+        "email": "data@atlasconsulting.com"
+      },
+      "updatedAt": "2026-02-12T16:20:00.000Z"
+    },
+    {
+      "id": "f4a5b6c7-d8e9-4012-7890-123456789024",
+      "title": "User permission changes not saving",
+      "description": "When an admin changes a user's role from Viewer to Editor and clicks Save, the change appears in the UI but reverts after a page refresh. Permissions are not being persisted.",
+      "priority": "medium",
+      "status": "closed",
+      "customer": {
+        "name": "Forge Digital",
+        "email": "admin@forgedigital.co"
+      },
+      "updatedAt": "2026-02-11T13:10:00.000Z"
+    },
+    {
+      "id": "b6c7d8e9-f0a1-4234-9012-345678901226",
+      "title": "API documentation links returning 404. Customer needs it",
+      "description": "Several links in your API documentation point to endpoints that return 404. Specifically the sections on webhooks and rate limiting. Our developers are blocked setting up new integrations.",
+      "priority": "low",
+      "status": "pending",
+      "customer": {
+        "name": "Quartz Software",
+        "email": "dev@quartzsoft.com"
+      },
+      "updatedAt": "2026-02-24T11:55:35.184Z"
+    },
+    {
+      "id": "c7d8e9f0-a1b2-4345-0123-456789012327",
+      "title": "Duplicate entries appearing in CRM sync",
+      "description": "Every contact synced from our CRM is appearing twice in the system. This started after we re-enabled the sync integration last Monday. We now have ~2,000 duplicate records that need to be deduplicated.",
+      "priority": "low",
+      "status": "closed",
+      "customer": {
+        "name": "Beacon Logistics",
+        "email": "it@beaconlogistics.com"
+      },
+      "updatedAt": "2026-02-13T15:50:00.000Z"
+    }
+  ]
+}
