@@ -5,6 +5,7 @@ import { api, STATUS_LABELS } from './api/client'
 import './App.css'
 import TicketCard from './components/TicketCard'
 import SkeletonCard from './components/SkeletonCard'
+import Pagination from './components/Pagination'
 
 type StatusFilter = TicketStatus | 'all'
 
@@ -153,26 +154,12 @@ export default function App() {
             </div>
           )}
 
-          {!isLoading && !isError && pagination && pagination.totalPages > 1 && (
-            <div className="pagination">
-              <button
-                className="pagination-btn"
-                onClick={() => setPage((p) => p - 1)}
-                disabled={page === 1}
-              >
-                ← Prev
-              </button>
-              <span className="pagination-info">
-                Page {pagination.page} of {pagination.totalPages}
-              </span>
-              <button
-                className="pagination-btn"
-                onClick={() => setPage((p) => p + 1)}
-                disabled={page === pagination.totalPages}
-              >
-                Next →
-              </button>
-            </div>
+          {!isLoading && !isError && pagination && (
+            <Pagination
+              page={page}
+              totalPages={pagination.totalPages}
+              onPageChange={setPage}
+            />
           )}
         </section>
       </main>
