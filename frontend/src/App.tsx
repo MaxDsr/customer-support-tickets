@@ -3,34 +3,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { SortOrder, TicketStatus } from './types'
 import { api, STATUS_LABELS } from './api/client'
 import './App.css'
-import TicketCard from './components/TicketCard/index.tsx'
+import TicketCard from './components/TicketCard'
+import SkeletonCard from './components/SkeletonCard'
 
 type StatusFilter = TicketStatus | 'all'
-
-function SkeletonCard() {
-  return (
-    <article className="TicketCard TicketCard--skeleton" aria-hidden="true">
-      <div className="ticket-card-body">
-        <div className="ticket-meta">
-          <span className="skeleton skeleton--badge" />
-          <span className="skeleton skeleton--badge" />
-          <span className="skeleton skeleton--date" />
-        </div>
-        <div className="skeleton skeleton--title" />
-        <div className="skeleton skeleton--line" />
-        <div className="skeleton skeleton--line skeleton--line-short" />
-        <div className="ticket-customer">
-          <span className="skeleton skeleton--name" />
-          <span className="skeleton skeleton--name skeleton--name-short" />
-        </div>
-      </div>
-      <div className="ticket-card-actions">
-        <div className="skeleton skeleton--select" />
-        <div className="skeleton skeleton--btn" />
-      </div>
-    </article>
-  )
-}
 
 export default function App() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
