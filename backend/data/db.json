@@ -299,6 +299,162 @@
         "email": "it@beaconlogistics.com"
       },
       "updatedAt": "2026-02-13T15:50:00.000Z"
+    },
+    {
+      "id": "d8e9f0a1-b2c3-4456-1234-567890123428",
+      "title": "CSV export includes incorrect column headers",
+      "description": "When exporting ticket data as CSV, the column headers in the file do not match the actual data. The 'assignee' column contains status values, and the 'status' column is empty. This makes automated processing of exports impossible.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Stratos Analytics",
+        "email": "data@stratos.ai"
+      },
+      "updatedAt": "2026-02-24T09:30:00.000Z"
+    },
+    {
+      "id": "e9f0a1b2-c3d4-4567-2345-678901234529",
+      "title": "Account locked after failed login attempts",
+      "description": "Our admin account was locked after a series of failed login attempts during a credential migration. We cannot access the admin panel at all. We have verified the correct new credentials but the lockout persists.",
+      "priority": "high",
+      "status": "open",
+      "customer": {
+        "name": "Vertex Solutions",
+        "email": "admin@vertexsolutions.com"
+      },
+      "updatedAt": "2026-02-24T06:15:00.000Z"
+    },
+    {
+      "id": "f0a1b2c3-d4e5-4678-3456-789012345630",
+      "title": "Slack integration not posting ticket updates",
+      "description": "Our Slack integration used to post a message to #support-alerts whenever a ticket was created or resolved. This stopped working four days ago. The integration shows as connected in settings and the Slack bot is still in our workspace.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Lightwave Agency",
+        "email": "ops@lightwaveagency.com"
+      },
+      "updatedAt": "2026-02-23T14:00:00.000Z"
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4789-4567-890123456731",
+      "title": "Plan upgrade not reflected on account",
+      "description": "We upgraded from the Starter plan to the Business plan two days ago and the charge went through on our card, but our account still shows Starter limitations. We cannot add more than 5 team members as a result.",
+      "priority": "high",
+      "status": "pending",
+      "customer": {
+        "name": "Cinder Technologies",
+        "email": "billing@cindertech.io"
+      },
+      "updatedAt": "2026-02-23T17:45:00.000Z"
+    },
+    {
+      "id": "b2c3d4e5-f6a7-4890-5678-901234567832",
+      "title": "Knowledge base articles not indexed in search",
+      "description": "Articles published to our customer-facing knowledge base in the last two weeks do not appear in search results. Older articles are searchable. The new articles are marked as published and publicly visible.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Driftwood SaaS",
+        "email": "content@driftwoodsaas.com"
+      },
+      "updatedAt": "2026-02-22T13:20:00.000Z"
+    },
+    {
+      "id": "c3d4e5f6-a7b8-4901-6789-012345678933",
+      "title": "Feature request: bulk ticket assignment",
+      "description": "Our team handles high ticket volumes and currently has to assign tickets to agents one at a time. A bulk-select and bulk-assign feature would save significant time during triage. Even 10 at a time would help.",
+      "priority": "low",
+      "status": "open",
+      "customer": {
+        "name": "Palisade Support Co",
+        "email": "team@palisadesupport.com"
+      },
+      "updatedAt": "2026-02-20T10:30:00.000Z"
+    },
+    {
+      "id": "d4e5f6a7-b8c9-4012-7890-123456789034",
+      "title": "Data export missing custom field values",
+      "description": "When we export our ticket data, all standard fields are present but our custom fields (e.g., 'Region', 'Product Line') are completely absent from the export file. Custom fields display correctly in the UI.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "Fieldstone Group",
+        "email": "support@fieldstonegroup.com"
+      },
+      "updatedAt": "2026-02-21T11:55:00.000Z"
+    },
+    {
+      "id": "e5f6a7b8-c9d0-4123-8901-234567890135",
+      "title": "User avatar uploads corrupted on save. Customer needs it",
+      "description": "When users upload a profile avatar (PNG or JPEG), the image saves but renders as a broken image thumbnail. The issue affects all image formats and all browsers we have tested. Profile photos were working fine last month.",
+      "priority": "low",
+      "status": "open",
+      "customer": {
+        "name": "Lunar Creative",
+        "email": "hello@lunarcreative.co"
+      },
+      "updatedAt": "2026-02-19T09:10:00.000Z"
+    },
+    {
+      "id": "f6a7b8c9-d0e1-4234-9012-345678901236",
+      "title": "Canned responses not appearing for agents",
+      "description": "Agents can no longer access the canned response library when composing ticket replies. The button to insert a canned response is visible but clicking it opens a blank panel. The responses are still configured in admin settings.",
+      "priority": "medium",
+      "status": "pending",
+      "customer": {
+        "name": "Ember CX",
+        "email": "cx@embercx.com"
+      },
+      "updatedAt": "2026-02-22T08:00:00.000Z"
+    },
+    {
+      "id": "a7b8c9d0-e1f2-4345-0123-456789012337",
+      "title": "Two accounts merged without authorization",
+      "description": "Two separate customer accounts appear to have been merged into one without any action on our part. Historical tickets, contacts, and billing records from both accounts are now mixed together. This is a serious data integrity issue.",
+      "priority": "high",
+      "status": "closed",
+      "customer": {
+        "name": "Meridian Partners",
+        "email": "legal@meridianpartners.com"
+      },
+      "updatedAt": "2026-02-14T10:20:00.000Z"
+    },
+    {
+      "id": "b8c9d0e1-f2a3-4456-1234-567890123438",
+      "title": "Notification preferences not saving correctly",
+      "description": "Users update their email notification preferences (e.g., turning off 'new reply' emails) but the settings revert to the defaults after logging out and back in. This is causing unwanted email noise for our entire team.",
+      "priority": "low",
+      "status": "closed",
+      "customer": {
+        "name": "Harbourview Tech",
+        "email": "it@harbourview.tech"
+      },
+      "updatedAt": "2026-02-11T16:40:00.000Z"
+    },
+    {
+      "id": "c9d0e1f2-a3b4-4567-2345-678901234539",
+      "title": "SLA breach alerts sent for resolved tickets",
+      "description": "Our team is receiving SLA breach alert emails for tickets that were already resolved and closed. This is creating confusion and alert fatigue. The timestamps on the alerts reference the original open date, not the current state.",
+      "priority": "medium",
+      "status": "closed",
+      "customer": {
+        "name": "Colossus Ops",
+        "email": "alerts@colossusops.com"
+      },
+      "updatedAt": "2026-02-09T12:00:00.000Z"
+    },
+    {
+      "id": "d0e1f2a3-b4c5-4678-3456-789012345640",
+      "title": "Cannot delete archived tickets via API",
+      "description": "DELETE requests to /api/v2/tickets/{id} for archived tickets return a 405 Method Not Allowed response. The API docs do not mention any restriction on deleting archived tickets. We need to purge old records for GDPR compliance.",
+      "priority": "medium",
+      "status": "open",
+      "customer": {
+        "name": "Torrent Fintech",
+        "email": "dev@torrentfintech.eu"
+      },
+      "updatedAt": "2026-02-24T07:05:00.000Z"
     }
   ]
 }
