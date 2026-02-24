@@ -7,6 +7,31 @@ import TicketCard from './components/TicketCard'
 
 type StatusFilter = TicketStatus | 'all'
 
+function SkeletonCard() {
+  return (
+    <article className="ticket-card ticket-card--skeleton" aria-hidden="true">
+      <div className="ticket-card-body">
+        <div className="ticket-meta">
+          <span className="skeleton skeleton--badge" />
+          <span className="skeleton skeleton--badge" />
+          <span className="skeleton skeleton--date" />
+        </div>
+        <div className="skeleton skeleton--title" />
+        <div className="skeleton skeleton--line" />
+        <div className="skeleton skeleton--line skeleton--line-short" />
+        <div className="ticket-customer">
+          <span className="skeleton skeleton--name" />
+          <span className="skeleton skeleton--name skeleton--name-short" />
+        </div>
+      </div>
+      <div className="ticket-card-actions">
+        <div className="skeleton skeleton--select" />
+        <div className="skeleton skeleton--btn" />
+      </div>
+    </article>
+  )
+}
+
 export default function App() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const queryClient = useQueryClient()
@@ -70,9 +95,8 @@ export default function App() {
           </div>
 
           {isLoading && (
-            <div className="state-message">
-              <span className="spinner" aria-hidden="true" />
-              Loading tickets…
+            <div className="tickets-list" role="status" aria-label="Loading tickets" aria-busy="true">
+              {Array.from({ length: 5 }, (_, i) => <SkeletonCard key={i} />)}
             </div>
           )}
 
