@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import type { Ticket, TicketStatus } from '../types'
-import { PRIORITY_LABELS, STATUS_LABELS } from '../api/client'
+import type { Ticket, TicketStatus } from '../../types'
+import { PRIORITY_LABELS, STATUS_LABELS } from '../../api/client'
+import './styles.css'
 
 interface TicketCardProps {
   ticket: Ticket
@@ -34,7 +35,7 @@ export default function TicketCard({ ticket, onStatusChange, onDelete }: TicketC
   }
 
   return (
-    <article className="ticket-card">
+    <article className="TicketCard">
       <div className="ticket-card-body">
         <div className="ticket-meta">
           <span className={`badge badge--${ticket.status}`}>{STATUS_LABELS[ticket.status]}</span>

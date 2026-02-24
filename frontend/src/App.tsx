@@ -3,13 +3,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { SortOrder, TicketStatus } from './types'
 import { api, STATUS_LABELS } from './api/client'
 import './App.css'
-import TicketCard from './components/TicketCard'
+import TicketCard from './components/TicketCard/index.tsx'
 
 type StatusFilter = TicketStatus | 'all'
 
 function SkeletonCard() {
   return (
-    <article className="ticket-card ticket-card--skeleton" aria-hidden="true">
+    <article className="TicketCard TicketCard--skeleton" aria-hidden="true">
       <div className="ticket-card-body">
         <div className="ticket-meta">
           <span className="skeleton skeleton--badge" />
