@@ -49,7 +49,7 @@ export default function App() {
     setPage(1)
   }, [debouncedSearch, statusFilter, sortOrder])
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ['tickets', debouncedSearch, statusFilter, sortOrder, page],
     queryFn: () => api.tickets.list(statusFilter, sortOrder, debouncedSearch, page),
   })
@@ -143,7 +143,14 @@ export default function App() {
 
           {isError && (
             <div className="state-message state-message--error" role="alert">
-              Could not load tickets. Please check your connection and try again.
+              <span>Could not load tickets. Please check your connection and try again.</span>
+              <button
+                className="btn btn--danger"
+                onClick={() => refetch()}
+                disabled={isFetching}
+              >
+                {isFetching ? 'Retrying…' : 'Retry'}
+              </button>
             </div>
           )}
 

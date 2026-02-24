@@ -7,7 +7,7 @@ router.get('/', async (req: Request, res: Response) => {
   await db.read()
   const { status, sort, search, page } = req.query
 
-  const PAGE_SIZE = 7
+  const PAGE_SIZE = 4
 
   // 1. Search by title
   let tickets = db.data.tickets
@@ -36,10 +36,10 @@ router.get('/', async (req: Request, res: Response) => {
   const start = (pageNum - 1) * PAGE_SIZE
   const paginated = tickets.slice(start, start + PAGE_SIZE)
 
-  res.json({
-    tickets: paginated,
-    pagination: { total, page: pageNum, limit: PAGE_SIZE, totalPages },
-  })
+	await new Promise((resolve) => setTimeout(resolve, 1500))
+
+	// res.status(500).json({ message: 'Internal server error' })
+  res.json({  tickets: paginated,pagination: { total, page: pageNum, limit: PAGE_SIZE, totalPages }})
 })
 
 router.get('/:id', async (req: Request, res: Response) => {
