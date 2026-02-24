@@ -5,12 +5,20 @@ const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
   await db.read()
-  const { status } = req.query
+  const { status, sort } = req.query
+
   const validStatuses = ['open', 'pending', 'closed']
-  const tickets =
+  let tickets =
     typeof status === 'string' && validStatuses.includes(status)
       ? db.data.tickets.filter((t) => t.status === status)
       : db.data.tickets
+
+  const sortOrder = sort === 'asc' ? 'asc' : 'desc'
+  tickets = [...tickets].sort((a, b) => {
+    const cmp = a.updatedAt.localeCompare(b.updatedAt)
+    return sortOrder === 'asc' ? cmp : -cmp
+  })
+
   res.json(tickets)
 })
 

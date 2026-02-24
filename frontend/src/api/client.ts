@@ -1,4 +1,4 @@
-import type { Ticket, TicketPriority, TicketStatus } from '../types'
+import type { SortOrder, Ticket, TicketPriority, TicketStatus } from '../types'
 
 type StatusFilter = TicketStatus | 'all'
 
@@ -19,8 +19,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   tickets: {
-    list: (status?: StatusFilter) => {
-      const qs = status && status !== 'all' ? `?status=${status}` : ''
+    list: (status?: StatusFilter, sort?: SortOrder) => {
+      const params = new URLSearchParams()
+      if (status && status !== 'all') params.set('status', status)
+      if (sort) params.set('sort', sort)
+      const qs = params.size ? `?${params}` : ''
       return request<Ticket[]>(`/tickets${qs}`)
     },
     update: (id: string, data: Partial<Pick<Ticket, 'title' | 'description' | 'priority' | 'status' | 'customer'>>) =>

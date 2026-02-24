@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import type { TicketStatus } from './types'
+import type { SortOrder, TicketStatus } from './types'
 import { api, STATUS_LABELS } from './api/client'
 import './App.css'
 import TicketCard from './components/TicketCard'
@@ -34,11 +34,12 @@ function SkeletonCard() {
 
 export default function App() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
   const queryClient = useQueryClient()
 
   const { data: tickets = [], isLoading, isError } = useQuery({
-    queryKey: ['tickets', statusFilter],
-    queryFn: () => api.tickets.list(statusFilter),
+    queryKey: ['tickets', statusFilter, sortOrder],
+    queryFn: () => api.tickets.list(statusFilter, sortOrder),
   })
 
   const handleStatusChange = async (id: string, status: TicketStatus) => {
@@ -81,16 +82,30 @@ export default function App() {
             <h2 className="section-title">
               {statusFilter === 'all' ? 'All Tickets' : STATUS_LABELS[statusFilter]}
             </h2>
-            <div className="filter-bar" role="group" aria-label="Filter by status">
-              {(['all', 'open', 'pending', 'closed'] as const).map((s) => (
-                <button
-                  key={s}
-                  className={`filter-btn${statusFilter === s ? ' filter-btn--active' : ''}`}
-                  onClick={() => setStatusFilter(s)}
-                >
-                  {s === 'all' ? 'All' : STATUS_LABELS[s]}
-                </button>
-              ))}
+            <div className="controls-right">
+              <div className="filter-bar" role="group" aria-label="Filter by status">
+                {(['all', 'open', 'pending', 'closed'] as const).map((s) => (
+                  <button
+                    key={s}
+                    className={`filter-btn${statusFilter === s ? ' filter-btn--active' : ''}`}
+                    onClick={() => setStatusFilter(s)}
+                  >
+                    {s === 'all' ? 'All' : STATUS_LABELS[s]}
+                  </button>
+                ))}
+              </div>
+              <div className="sort-bar" role="group" aria-label="Sort by date">
+                <span className="sort-label">Sort by:</span>
+                {(['desc', 'asc'] as const).map((order) => (
+                  <button
+                    key={order}
+                    className={`filter-btn${sortOrder === order ? ' filter-btn--active' : ''}`}
+                    onClick={() => setSortOrder(order)}
+                  >
+                    {order === 'desc' ? 'Newest' : 'Oldest'}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -272,6 +272,27 @@
   background: #c7d2fe;
 }
 
+/* ── Controls bar ────────────────────────────────────────── */
+
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sort-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
 /* ── Ticket cards ────────────────────────────────────────── */
 
 .tickets-list {

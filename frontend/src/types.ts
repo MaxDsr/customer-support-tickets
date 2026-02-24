@@ -1,5 +1,6 @@
 export type TicketPriority = 'low' | 'medium' | 'high'
 export type TicketStatus = 'open' | 'pending' | 'closed'
+export type SortOrder = 'asc' | 'desc'
 
 export interface TicketCustomer {
   name: string
