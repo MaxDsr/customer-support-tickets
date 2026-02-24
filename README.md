@@ -129,6 +129,14 @@ Response shape:
 }
 ```
 
+## AI development history
+
+| File / Folder              | Contents                                                  |
+| -------------------------- | --------------------------------------------------------- |
+| `drafts.txt`               | Drafted prompts used when building this project with LLMs |
+| `claude-code-chat-history/`| Conversation history from Claude Code sessions            |
+| `cursor-chat-history/`     | Conversation history from Cursor AI agent sessions        |
+
 ## Build for production
 
 ```bash
