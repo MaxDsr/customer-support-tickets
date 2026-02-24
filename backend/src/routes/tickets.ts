@@ -36,7 +36,7 @@ router.get('/', async (req: Request, res: Response) => {
   const start = (pageNum - 1) * PAGE_SIZE
   const paginated = tickets.slice(start, start + PAGE_SIZE)
 
-	await new Promise((resolve) => setTimeout(resolve, 1500))
+	// await new Promise((resolve) => setTimeout(resolve, 1500))
 
 	// res.status(500).json({ message: 'Internal server error' })
   res.json({  tickets: paginated,pagination: { total, page: pageNum, limit: PAGE_SIZE, totalPages }})
