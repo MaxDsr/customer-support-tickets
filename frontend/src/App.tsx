@@ -1,0 +1,260 @@
+import { useState, useEffect, FormEvent } from 'react'
+import type { Ticket, TicketStatus } from './types'
+import { api, STATUS_LABELS } from './api/client'
+import './App.css'
+
+type StatusFilter = TicketStatus | 'all'
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
+interface TicketCardProps {
+  ticket: Ticket
+  onStatusChange: (id: string, status: TicketStatus) => void
+  onDelete: (id: string) => void
+}
+
+function TicketCard({ ticket, onStatusChange, onDelete }: TicketCardProps) {
+  const [deleting, setDeleting] = useState(false)
+  const [updating, setUpdating] = useState(false)
+
+  const handleStatusChange = async (status: TicketStatus) => {
+    setUpdating(true)
+    await onStatusChange(ticket.id, status)
+    setUpdating(false)
+  }
+
+  const handleDelete = async () => {
+    setDeleting(true)
+    await onDelete(ticket.id)
+  }
+
+  return (
+    <article className="ticket-card">
+      <div className="ticket-card-body">
+        <div className="ticket-meta">
+          <span className={`badge badge--${ticket.status}`}>{STATUS_LABELS[ticket.status]}</span>
+          <span className="ticket-date">{formatDate(ticket.createdAt)}</span>
+        </div>
+        <h3 className="ticket-title">{ticket.title}</h3>
+        <p className="ticket-description">{ticket.description}</p>
+      </div>
+      <div className="ticket-card-actions">
+        <select
+          value={ticket.status}
+          disabled={updating}
+          onChange={(e) => handleStatusChange(e.target.value as TicketStatus)}
+          className="status-select"
+          aria-label="Change status"
+        >
+          {(Object.entries(STATUS_LABELS) as [TicketStatus, string][]).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={handleDelete}
+          disabled={deleting}
+          className="btn btn--danger"
+          aria-label="Delete ticket"
+        >
+          {deleting ? '…' : 'Delete'}
+        </button>
+      </div>
+    </article>
+  )
+}
+
+export default function App() {
+  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
+
+  const [form, setForm] = useState({ title: '', description: '' })
+  const [formError, setFormError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+
+  useEffect(() => {
+    api.tickets
+      .list()
+      .then((data) => setTickets(data))
+      .catch((e: Error) => setFetchError(e.message))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const handleCreate = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!form.title.trim() || !form.description.trim()) {
+      setFormError('Title and description are required.')
+      return
+    }
+    setSubmitting(true)
+    setFormError(null)
+    try {
+      const ticket = await api.tickets.create({ title: form.title.trim(), description: form.description.trim() })
+      setTickets((prev) => [ticket, ...prev])
+      setForm({ title: '', description: '' })
+    } catch (e: unknown) {
+      setFormError(e instanceof Error ? e.message : 'Failed to create ticket.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleStatusChange = async (id: string, status: TicketStatus) => {
+    try {
+      const updated = await api.tickets.update(id, { status })
+      setTickets((prev) => prev.map((t) => (t.id === id ? updated : t)))
+    } catch (e) {
+      console.error('Failed to update ticket:', e)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    try {
+      await api.tickets.delete(id)
+      setTickets((prev) => prev.filter((t) => t.id !== id))
+    } catch (e) {
+      console.error('Failed to delete ticket:', e)
+    }
+  }
+
+  const filteredTickets =
+    statusFilter === 'all' ? tickets : tickets.filter((t) => t.status === statusFilter)
+
+  const counts = {
+    all: tickets.length,
+    open: tickets.filter((t) => t.status === 'open').length,
+    in_progress: tickets.filter((t) => t.status === 'in_progress').length,
+    resolved: tickets.filter((t) => t.status === 'resolved').length,
+  }
+
+  return (
+    <div className="app">
+      <header className="app-header">
+        <div className="app-header-inner">
+          <div className="app-brand">
+            <span className="app-brand-icon" aria-hidden="true">🎫</span>
+            <h1 className="app-title">Customer Support Tickets</h1>
+          </div>
+          <span className="app-ticket-count">
+            {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+      </header>
+
+      <main className="app-main">
+        <aside className="sidebar">
+          <section className="card new-ticket-card">
+            <h2 className="section-title">New Ticket</h2>
+            <form onSubmit={handleCreate} noValidate>
+              {formError && <p className="form-error" role="alert">{formError}</p>}
+              <div className="form-group">
+                <label htmlFor="title" className="form-label">Title</label>
+                <input
+                  id="title"
+                  type="text"
+                  className="form-input"
+                  placeholder="Brief summary of the issue"
+                  value={form.title}
+                  onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+                  maxLength={120}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description" className="form-label">Description</label>
+                <textarea
+                  id="description"
+                  className="form-textarea"
+                  placeholder="Detailed description of the issue…"
+                  rows={5}
+                  value={form.description}
+                  onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+                />
+              </div>
+              <button type="submit" className="btn btn--primary btn--full" disabled={submitting}>
+                {submitting ? 'Creating…' : 'Create Ticket'}
+              </button>
+            </form>
+          </section>
+
+          <section className="card stats-card">
+            <h2 className="section-title">Overview</h2>
+            <ul className="stats-list">
+              <li className="stats-item">
+                <span className="badge badge--open">Open</span>
+                <span className="stats-count">{counts.open}</span>
+              </li>
+              <li className="stats-item">
+                <span className="badge badge--in_progress">In Progress</span>
+                <span className="stats-count">{counts.in_progress}</span>
+              </li>
+              <li className="stats-item">
+                <span className="badge badge--resolved">Resolved</span>
+                <span className="stats-count">{counts.resolved}</span>
+              </li>
+            </ul>
+          </section>
+        </aside>
+
+        <section className="tickets-section">
+          <div className="tickets-section-header">
+            <h2 className="section-title">
+              {statusFilter === 'all' ? 'All Tickets' : STATUS_LABELS[statusFilter]}
+            </h2>
+            <div className="filter-bar" role="group" aria-label="Filter by status">
+              {(['all', 'open', 'in_progress', 'resolved'] as const).map((s) => (
+                <button
+                  key={s}
+                  className={`filter-btn${statusFilter === s ? ' filter-btn--active' : ''}`}
+                  onClick={() => setStatusFilter(s)}
+                >
+                  {s === 'all' ? 'All' : STATUS_LABELS[s]}
+                  <span className="filter-btn-count">{counts[s]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {loading && (
+            <div className="state-message">
+              <span className="spinner" aria-hidden="true" />
+              Loading tickets…
+            </div>
+          )}
+
+          {fetchError && (
+            <div className="state-message state-message--error" role="alert">
+              Could not load tickets: {fetchError}
+            </div>
+          )}
+
+          {!loading && !fetchError && filteredTickets.length === 0 && (
+            <div className="state-message state-message--empty">
+              {statusFilter === 'all' ? 'No tickets yet. Create one!' : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
+            </div>
+          )}
+
+          <div className="tickets-list">
+            {filteredTickets.map((ticket) => (
+              <TicketCard
+                key={ticket.id}
+                ticket={ticket}
+                onStatusChange={handleStatusChange}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  )
+}
