@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { SortOrder, TicketStatus } from './types'
 import { api, STATUS_LABELS } from './api/client'
@@ -35,12 +35,27 @@ function SkeletonCard() {
 export default function App() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
+  const [searchInput, setSearchInput] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+  const [page, setPage] = useState(1)
   const queryClient = useQueryClient()
 
-  const { data: tickets = [], isLoading, isError } = useQuery({
-    queryKey: ['tickets', statusFilter, sortOrder],
-    queryFn: () => api.tickets.list(statusFilter, sortOrder),
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchInput), 300)
+    return () => clearTimeout(timer)
+  }, [searchInput])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch, statusFilter, sortOrder])
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['tickets', debouncedSearch, statusFilter, sortOrder, page],
+    queryFn: () => api.tickets.list(statusFilter, sortOrder, debouncedSearch, page),
   })
+
+  const tickets = data?.tickets ?? []
+  const pagination = data?.pagination ?? null
 
   const handleStatusChange = async (id: string, status: TicketStatus) => {
     try {
@@ -68,9 +83,9 @@ export default function App() {
             <span className="app-brand-icon" aria-hidden="true">🎫</span>
             <h1 className="app-title">Customer Support Tickets</h1>
           </div>
-          {!isLoading && !isError && (
+          {!isLoading && !isError && pagination && (
             <span className="app-ticket-count">
-              {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
+              {pagination.total} ticket{pagination.total !== 1 ? 's' : ''}
             </span>
           )}
         </div>
@@ -78,6 +93,17 @@ export default function App() {
 
       <main className="app-main">
         <section className="tickets-section">
+          <div className="search-bar">
+            <input
+              type="search"
+              className="search-input"
+              placeholder="Search by title…"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              aria-label="Search tickets by title"
+            />
+          </div>
+
           <div className="tickets-section-header">
             <h2 className="section-title">
               {statusFilter === 'all' ? 'All Tickets' : STATUS_LABELS[statusFilter]}
@@ -123,7 +149,11 @@ export default function App() {
 
           {!isLoading && !isError && tickets.length === 0 && (
             <div className="state-message state-message--empty">
-              {statusFilter === 'all' ? 'No tickets yet.' : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
+              {debouncedSearch
+                ? `No tickets matching "${debouncedSearch}".`
+                : statusFilter === 'all'
+                  ? 'No tickets yet.'
+                  : `No ${STATUS_LABELS[statusFilter].toLowerCase()} tickets.`}
             </div>
           )}
 
@@ -137,6 +167,28 @@ export default function App() {
                   onDelete={handleDelete}
                 />
               ))}
+            </div>
+          )}
+
+          {!isLoading && !isError && pagination && pagination.totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={() => setPage((p) => p - 1)}
+                disabled={page === 1}
+              >
+                ← Prev
+              </button>
+              <span className="pagination-info">
+                Page {pagination.page} of {pagination.totalPages}
+              </span>
+              <button
+                className="pagination-btn"
+                onClick={() => setPage((p) => p + 1)}
+                disabled={page === pagination.totalPages}
+              >
+                Next →
+              </button>
             </div>
           )}
         </section>

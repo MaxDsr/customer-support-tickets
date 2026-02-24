@@ -5,21 +5,41 @@ const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
   await db.read()
-  const { status, sort } = req.query
+  const { status, sort, search, page } = req.query
 
+  const PAGE_SIZE = 7
+
+  // 1. Search by title
+  let tickets = db.data.tickets
+  if (typeof search === 'string' && search.trim()) {
+    const q = search.trim().toLowerCase()
+    tickets = tickets.filter((t) => t.title.toLowerCase().includes(q))
+  }
+
+  // 2. Filter by status
   const validStatuses = ['open', 'pending', 'closed']
-  let tickets =
-    typeof status === 'string' && validStatuses.includes(status)
-      ? db.data.tickets.filter((t) => t.status === status)
-      : db.data.tickets
+  if (typeof status === 'string' && validStatuses.includes(status)) {
+    tickets = tickets.filter((t) => t.status === status)
+  }
 
+  // 3. Sort by date
   const sortOrder = sort === 'asc' ? 'asc' : 'desc'
   tickets = [...tickets].sort((a, b) => {
     const cmp = a.updatedAt.localeCompare(b.updatedAt)
     return sortOrder === 'asc' ? cmp : -cmp
   })
 
-  res.json(tickets)
+  // 4. Paginate
+  const total = tickets.length
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
+  const pageNum = Math.min(Math.max(1, parseInt(typeof page === 'string' ? page : '1', 10) || 1), totalPages)
+  const start = (pageNum - 1) * PAGE_SIZE
+  const paginated = tickets.slice(start, start + PAGE_SIZE)
+
+  res.json({
+    tickets: paginated,
+    pagination: { total, page: pageNum, limit: PAGE_SIZE, totalPages },
+  })
 })
 
 router.get('/:id', async (req: Request, res: Response) => {

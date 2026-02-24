@@ -1,4 +1,4 @@
-import type { SortOrder, Ticket, TicketPriority, TicketStatus } from '../types'
+import type { PaginatedTickets, SortOrder, Ticket, TicketPriority, TicketStatus } from '../types'
 
 type StatusFilter = TicketStatus | 'all'
 
@@ -19,12 +19,14 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   tickets: {
-    list: (status?: StatusFilter, sort?: SortOrder) => {
+    list: (status?: StatusFilter, sort?: SortOrder, search?: string, page?: number) => {
       const params = new URLSearchParams()
       if (status && status !== 'all') params.set('status', status)
       if (sort) params.set('sort', sort)
+      if (search && search.trim()) params.set('search', search.trim())
+      if (page && page > 1) params.set('page', String(page))
       const qs = params.size ? `?${params}` : ''
-      return request<Ticket[]>(`/tickets${qs}`)
+      return request<PaginatedTickets>(`/tickets${qs}`)
     },
     update: (id: string, data: Partial<Pick<Ticket, 'title' | 'description' | 'priority' | 'status' | 'customer'>>) =>
       request<Ticket>(`/tickets/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
