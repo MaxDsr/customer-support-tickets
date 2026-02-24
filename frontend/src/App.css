@@ -52,14 +52,10 @@
 
 .app-main {
   flex: 1;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 24px;
-  max-width: 1200px;
+  max-width: 1024px;
   width: 100%;
   margin: 28px auto;
   padding: 0 24px;
-  align-items: start;
 }
 
 /* ── Cards ───────────────────────────────────────────────── */
@@ -473,13 +469,8 @@
 
 @media (max-width: 768px) {
   .app-main {
-    grid-template-columns: 1fr;
     padding: 0 16px;
     margin: 16px auto;
-  }
-
-  .sidebar {
-    position: static;
   }
 
   .tickets-section-header {

@@ -123,23 +123,6 @@ export default function App() {
       </header>
 
       <main className="app-main">
-        <aside className="sidebar">
-          <section className="card stats-card">
-            <h2 className="section-title">Overview</h2>
-            <ul className="stats-list">
-              <li className="stats-item">
-                <span className="badge badge--open">Open</span>
-              </li>
-              <li className="stats-item">
-                <span className="badge badge--pending">Pending</span>
-              </li>
-              <li className="stats-item">
-                <span className="badge badge--closed">Closed</span>
-              </li>
-            </ul>
-          </section>
-        </aside>
-
         <section className="tickets-section">
           <div className="tickets-section-header">
             <h2 className="section-title">
@@ -191,6 +174,7 @@ export default function App() {
           )}
         </section>
       </main>
+
     </div>
   )
 }
