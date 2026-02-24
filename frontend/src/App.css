@@ -337,6 +337,24 @@
   overflow: hidden;
 }
 
+.ticket-customer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ticket-customer-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.ticket-customer-email {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
 .ticket-card-actions {
   display: flex;
   align-items: center;
@@ -385,14 +403,29 @@
   color: #991b1b;
 }
 
-.badge--in_progress {
+.badge--pending {
   background: #fef3c7;
   color: #78350f;
 }
 
-.badge--resolved {
+.badge--closed {
   background: #d1fae5;
   color: #065f46;
+}
+
+.badge--priority-low {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.badge--priority-medium {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.badge--priority-high {
+  background: #fdf2f8;
+  color: #9d174d;
 }
 
 /* ── State messages ──────────────────────────────────────── */

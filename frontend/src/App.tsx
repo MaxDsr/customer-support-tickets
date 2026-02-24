@@ -1,15 +1,17 @@
 import { useState, useEffect, FormEvent } from 'react'
-import type { Ticket, TicketStatus } from './types'
-import { api, STATUS_LABELS } from './api/client'
+import type { Ticket, TicketStatus, TicketPriority } from './types'
+import { api, STATUS_LABELS, PRIORITY_LABELS } from './api/client'
 import './App.css'
 
 type StatusFilter = TicketStatus | 'all'
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
+  return new Date(iso).toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   })
 }
 
@@ -39,10 +41,15 @@ function TicketCard({ ticket, onStatusChange, onDelete }: TicketCardProps) {
       <div className="ticket-card-body">
         <div className="ticket-meta">
           <span className={`badge badge--${ticket.status}`}>{STATUS_LABELS[ticket.status]}</span>
-          <span className="ticket-date">{formatDate(ticket.createdAt)}</span>
+          <span className={`badge badge--priority-${ticket.priority}`}>{PRIORITY_LABELS[ticket.priority]}</span>
+          <span className="ticket-date">Updated {formatDate(ticket.updatedAt)}</span>
         </div>
         <h3 className="ticket-title">{ticket.title}</h3>
         <p className="ticket-description">{ticket.description}</p>
+        <div className="ticket-customer">
+          <span className="ticket-customer-name">{ticket.customer.name}</span>
+          <span className="ticket-customer-email">{ticket.customer.email}</span>
+        </div>
       </div>
       <div className="ticket-card-actions">
         <select
@@ -76,7 +83,13 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState<string | null>(null)
 
-  const [form, setForm] = useState({ title: '', description: '' })
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    priority: 'medium' as TicketPriority,
+    customerName: '',
+    customerEmail: '',
+  })
   const [formError, setFormError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -92,16 +105,21 @@ export default function App() {
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
-    if (!form.title.trim() || !form.description.trim()) {
-      setFormError('Title and description are required.')
+    if (!form.title.trim() || !form.description.trim() || !form.customerName.trim() || !form.customerEmail.trim()) {
+      setFormError('All fields are required.')
       return
     }
     setSubmitting(true)
     setFormError(null)
     try {
-      const ticket = await api.tickets.create({ title: form.title.trim(), description: form.description.trim() })
+      const ticket = await api.tickets.create({
+        title: form.title.trim(),
+        description: form.description.trim(),
+        priority: form.priority,
+        customer: { name: form.customerName.trim(), email: form.customerEmail.trim() },
+      })
       setTickets((prev) => [ticket, ...prev])
-      setForm({ title: '', description: '' })
+      setForm({ title: '', description: '', priority: 'medium', customerName: '', customerEmail: '' })
     } catch (e: unknown) {
       setFormError(e instanceof Error ? e.message : 'Failed to create ticket.')
     } finally {
@@ -133,8 +151,8 @@ export default function App() {
   const counts = {
     all: tickets.length,
     open: tickets.filter((t) => t.status === 'open').length,
-    in_progress: tickets.filter((t) => t.status === 'in_progress').length,
-    resolved: tickets.filter((t) => t.status === 'resolved').length,
+    pending: tickets.filter((t) => t.status === 'pending').length,
+    closed: tickets.filter((t) => t.status === 'closed').length,
   }
 
   return (
@@ -175,9 +193,44 @@ export default function App() {
                   id="description"
                   className="form-textarea"
                   placeholder="Detailed description of the issue…"
-                  rows={5}
+                  rows={4}
                   value={form.description}
                   onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="priority" className="form-label">Priority</label>
+                <select
+                  id="priority"
+                  className="form-input"
+                  value={form.priority}
+                  onChange={(e) => setForm((p) => ({ ...p, priority: e.target.value as TicketPriority }))}
+                >
+                  {(Object.entries(PRIORITY_LABELS) as [TicketPriority, string][]).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="customerName" className="form-label">Customer Name</label>
+                <input
+                  id="customerName"
+                  type="text"
+                  className="form-input"
+                  placeholder="e.g. Acme BV"
+                  value={form.customerName}
+                  onChange={(e) => setForm((p) => ({ ...p, customerName: e.target.value }))}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="customerEmail" className="form-label">Customer Email</label>
+                <input
+                  id="customerEmail"
+                  type="email"
+                  className="form-input"
+                  placeholder="e.g. it@acme.com"
+                  value={form.customerEmail}
+                  onChange={(e) => setForm((p) => ({ ...p, customerEmail: e.target.value }))}
                 />
               </div>
               <button type="submit" className="btn btn--primary btn--full" disabled={submitting}>
@@ -194,12 +247,12 @@ export default function App() {
                 <span className="stats-count">{counts.open}</span>
               </li>
               <li className="stats-item">
-                <span className="badge badge--in_progress">In Progress</span>
-                <span className="stats-count">{counts.in_progress}</span>
+                <span className="badge badge--pending">Pending</span>
+                <span className="stats-count">{counts.pending}</span>
               </li>
               <li className="stats-item">
-                <span className="badge badge--resolved">Resolved</span>
-                <span className="stats-count">{counts.resolved}</span>
+                <span className="badge badge--closed">Closed</span>
+                <span className="stats-count">{counts.closed}</span>
               </li>
             </ul>
           </section>
@@ -211,7 +264,7 @@ export default function App() {
               {statusFilter === 'all' ? 'All Tickets' : STATUS_LABELS[statusFilter]}
             </h2>
             <div className="filter-bar" role="group" aria-label="Filter by status">
-              {(['all', 'open', 'in_progress', 'resolved'] as const).map((s) => (
+              {(['all', 'open', 'pending', 'closed'] as const).map((s) => (
                 <button
                   key={s}
                   className={`filter-btn${statusFilter === s ? ' filter-btn--active' : ''}`}

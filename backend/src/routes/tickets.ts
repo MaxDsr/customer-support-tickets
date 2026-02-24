@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { randomUUID } from 'node:crypto'
-import { db, Ticket, TicketStatus } from '../db.js'
+import { db, Ticket, TicketPriority, TicketStatus } from '../db.js'
 
 const router = Router()
 
@@ -20,19 +20,27 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.post('/', async (req: Request, res: Response) => {
-  const { title, description } = req.body as Pick<Ticket, 'title' | 'description'>
-  if (!title || !description) {
-    res.status(400).json({ message: 'title and description are required' })
+  const { title, description, priority, customer } = req.body as Pick<Ticket, 'title' | 'description' | 'priority' | 'customer'>
+
+  if (!title || !description || !priority || !customer?.name || !customer?.email) {
+    res.status(400).json({ message: 'title, description, priority, customer.name, and customer.email are required' })
     return
   }
-  const now = new Date().toISOString()
+
+  const validPriorities: TicketPriority[] = ['low', 'medium', 'high']
+  if (!validPriorities.includes(priority)) {
+    res.status(400).json({ message: `priority must be one of: ${validPriorities.join(', ')}` })
+    return
+  }
+
   const ticket: Ticket = {
     id: randomUUID(),
     title: String(title),
     description: String(description),
+    priority,
     status: 'open',
-    createdAt: now,
-    updatedAt: now,
+    customer: { name: String(customer.name), email: String(customer.email) },
+    updatedAt: new Date().toISOString(),
   }
   await db.update((data) => data.tickets.push(ticket))
   res.status(201).json(ticket)
@@ -45,17 +53,28 @@ router.patch('/:id', async (req: Request, res: Response) => {
     res.status(404).json({ message: 'Ticket not found' })
     return
   }
-  const { title, description, status } = req.body as Partial<Pick<Ticket, 'title' | 'description' | 'status'>>
-  const validStatuses: TicketStatus[] = ['open', 'in_progress', 'resolved']
+
+  const { title, description, priority, status, customer } = req.body as Partial<Pick<Ticket, 'title' | 'description' | 'priority' | 'status' | 'customer'>>
+
+  const validStatuses: TicketStatus[] = ['open', 'pending', 'closed']
   if (status && !validStatuses.includes(status)) {
     res.status(400).json({ message: `status must be one of: ${validStatuses.join(', ')}` })
     return
   }
+
+  const validPriorities: TicketPriority[] = ['low', 'medium', 'high']
+  if (priority && !validPriorities.includes(priority)) {
+    res.status(400).json({ message: `priority must be one of: ${validPriorities.join(', ')}` })
+    return
+  }
+
   const updated: Ticket = {
     ...db.data.tickets[index],
     ...(title !== undefined && { title }),
     ...(description !== undefined && { description }),
+    ...(priority !== undefined && { priority }),
     ...(status !== undefined && { status }),
+    ...(customer !== undefined && { customer }),
     updatedAt: new Date().toISOString(),
   }
   await db.update((data) => {
