@@ -1,0 +1,93 @@
+Let's build a project. Frontend on React + Vite and backend on Node.js + Express.js. frontend folder and backend folder.
+The backend folder will work with a .json db. Suggest me the best approach as of feb 2026. 
+
+
+
+Let's change the screen of the app. I don't need the ticket creation section since the screen is for the customer support. 
+
+Change the model of the ticket. it should be following:
+
+{
+	id: string; // UUID-v4,
+	title: string; // Ex. Customer can't reset password
+	description: string; // Ex. Customer reports reset email never Let's build a project. Frontend on React + Vite and backend on Node.js + Express.js. frontend folder and backend folder.
+	priority: "low" | "medium" | "high";
+	status: "open" | "pending" | "closed";
+	customer: {
+		"name": string; // Ex: "Acme BV"
+		"email": string; // Ex: "it@acme.com" 
+	};
+	updatedAt: Date; // Note: suggest me what date format would be the best considering my setup? I need Date + Time
+}
+
+
+----------
+
+
+So since the screen with ticket creation was removed let's also remove the CRUD operation on the BE and anything related if you find.
+
+
+
+
+
+-==========
+
+
+Ok, so what state management approach would be the best if I need to add the error state in the UI when request fails, empty message when no elements are there,
+loading state? Also, I need to add the sorting by date & time and I need to add the search potentially with pagination. What state management?
+
+
+I want to move the filtering by status to the BE filtering. I want to change the data fetching on FE using the tanstack queries.
+Ask me anything if needed.
+
+------
+
+I want to add a skeleton for the loading state of the tickets. It should show the skeletons for list of elements. Let's make a plan. ask me anything if needed
+
+
+---------
+
+Let's add a sorting button near the status filter buttons. The sorting will be by date. it should be smth like Sort by: Asc | Desc.
+Do the sorting on the BE. Let's make a plan. Ask me anything if needed
+
+
+
+----------
+
+Let's make a plan. Let's add a search bar on top that will search by the title of the ticket. I also want to add the pagination.
+I want the order of the filtering be like this:
+
+1. search string. if none provided -> query all
+2. filters by status
+3. pagination of all the results from previous steps
+4. sorting by date
+
+
+The searching, filtering and pagination steps should be done on the BE. Ask me anything if needed
+
+-----------
+
+
+I want to add a "Retry" button if the querying resulted with errors from BE. What's the best way to do it considering that tanstack query does 3 retries by default? The button should be in the same case when there is an error and "Could not load tickets. Please check your connection and try again." is shown. Let's make a plan. ask me anything if needed
+
+
+Let's clean up a bit. I previously moved the TicketCard component to a different file. Make it a folder and add a styles.css file and place there the files
+specific just for that component. encapsulate them. So all of them are working only under a css class "TicketCard". Ask me anything if needed
+
+---------------
+
+
+Now I am thinking to separate the pagination UI and styles to the "components" folder. Is there any concern regarding the logic transfer? Is it possible to use it via tanstack just by consuming it and not sending as props.
+Also, do I need to output smth from the separated component? or tanstack has a way to mitagate it to. Let's branstorm, plan. Ask me anything. Suggest
+
+----------------
+
+
+Let's dockerize the app. I want a docker-compose file that will build both FE and BE. I want the BE container to sync with the backend/data/db.json. So everything that will be updated via service in BE will get updated in the file on my host machine too. Is the other way around also work?
+On the host machine FE port is 3000, BE port is 3001. 
+Let's make a plan. Suggest me things and ask me anything for clarification.
+
+
+---------\
+
+Add the explanation steps for spining-up the docker containers. Also, let's update the README.md file so it matches the current state of the project. Let's make a plan. Ask me anything if needed.

@@ -1,0 +1,274 @@
+{
+  "display": "So since the screen with ticket creation was removed let's also remove the CRUD operation on the BE and anything related if you find.",
+  "pastedContents": {},
+  "timestamp": 1771926244783,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "6289bfed-27df-4514-a6fe-983f0dda22cf"
+}
+
+{
+  "display": "what did we discuss before?",
+  "pastedContents": {},
+  "timestamp": 1771928304604,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "6289bfed-27df-4514-a6fe-983f0dda22cf"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771928329417,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "6289bfed-27df-4514-a6fe-983f0dda22cf"
+}
+
+{
+  "display": "Where do I see history of previous prompts and responses?",
+  "pastedContents": {},
+  "timestamp": 1771928432923,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f2f4e61a-beb7-4265-8581-b2d6f11aa938"
+}
+
+{
+  "display": "/resume ",
+  "pastedContents": {},
+  "timestamp": 1771928522739,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f2f4e61a-beb7-4265-8581-b2d6f11aa938"
+}
+
+{
+  "display": "I want to move the filtering by status to the BE filtering. I want to change the data fetching on FE using the tanstack queries. I need to show different UI on loading state, empty list and error state.\nAsk me anything if needed.",
+  "pastedContents": {},
+  "timestamp": 1771928989908,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f2f4e61a-beb7-4265-8581-b2d6f11aa938"
+}
+
+{
+  "display": "I want to move the filtering by status to the BE filtering. I want to change the data fetching on FE using the tanstack queries. I need to show different UI on loading state, empty list and error state.\nLet's make a plan. Ask me anything if needed.",
+  "pastedContents": {},
+  "timestamp": 1771929002080,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f2f4e61a-beb7-4265-8581-b2d6f11aa938"
+}
+
+{
+  "display": "Let's remove the Overview Box completely",
+  "pastedContents": {},
+  "timestamp": 1771929544959,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "9ace9cb0-bf7c-4440-bbeb-9cfc450d1719"
+}
+
+{
+  "display": "it doesn't look good. fix the layout, let it be extended to a container with max width of 1024px and centered",
+  "pastedContents": {},
+  "timestamp": 1771929617473,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "9ace9cb0-bf7c-4440-bbeb-9cfc450d1719"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771929713025,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "9ace9cb0-bf7c-4440-bbeb-9cfc450d1719"
+}
+
+{
+  "display": "I want to add a skeleton for the loading state of the tickets. It should show the skeletons for list of elements. Let's make a plan. ask me anything if needed",
+  "pastedContents": {},
+  "timestamp": 1771929883992,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f4b68e7f-fa91-48c0-8c39-255412c16209"
+}
+
+{
+  "display": "Let's add a sorting button near the status filter buttons. The sorting will be by date. it should be smth like Sort by: Asc | Desc.\nDo the sorting on the BE. Let's make a plan. Ask me anything if needed",
+  "pastedContents": {},
+  "timestamp": 1771931023630,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f4b68e7f-fa91-48c0-8c39-255412c16209"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771934481279,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "f4b68e7f-fa91-48c0-8c39-255412c16209"
+}
+
+{
+  "display": "[Pasted text #2 +9 lines]",
+  "pastedContents": {
+    "1": {
+      "id": 1,
+      "type": "text",
+      "content": "Let's make a plan. Let's add a search bar on top that will search by the title of the ticket. I also want to add the pagination.\nI want the order of the filtering be like this:\n\n1. search string. if none provided -> query all\n2. filters by status\n3. pagination of all the results from previous steps\n4. sorting by date\n\n\nThe searching, filtering and pagination steps should be done on the BE. Ask me anything if needed"
+    },
+    "2": {
+      "id": 2,
+      "type": "text",
+      "content": "Let's make a plan. Let's add a search bar on top that will search by the title of the ticket. I also want to add the pagination.\nI want the order of the filtering be like this:\n\n1. search string. if none provided -> query all\n2. filters by status\n3. pagination of all the results from previous steps\n4. sorting by date\n\n\nThe searching, filtering and pagination steps should be done on the BE. Ask me anything if needed"
+    }
+  },
+  "timestamp": 1771934745462,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "ecb2cc62-9358-445e-939f-0888de32a59b"
+}
+
+{
+  "display": "7 per page",
+  "pastedContents": {},
+  "timestamp": 1771934883404,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "ecb2cc62-9358-445e-939f-0888de32a59b"
+}
+
+{
+  "display": "I want to add a \"Retry\" button if the querying resulted with errors from BE. What's the best way to do it considering that tanstack query does 3 retries by default? The button should be in the same case when there is an error and \"Could not load tickets. Please check your connection and try again.\" is shown. Let's make a plan. ask me anything if needed",
+  "pastedContents": {},
+  "timestamp": 1771936444606,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "ecb2cc62-9358-445e-939f-0888de32a59b"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771938009395,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "ecb2cc62-9358-445e-939f-0888de32a59b"
+}
+
+{
+  "display": "Now I am thinking to separate the pagination UI and styles to the \"components\" folder. Is there any concern regarding the logic transfer? Is it possible to use it via tanstack just by consuming it and not sending as props.\nAlso, do I need to output smth from the separated component? or tanstack has a way to mitagate it to. Let's branstorm, plan. Ask me anything. Suggest",
+  "pastedContents": {},
+  "timestamp": 1771938018300,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "1. No I don't. But I need to add React Router for the next feature anyway.\n2. Not that important.\n3. No, let's keep it simple. Not a concern for now.",
+  "pastedContents": {},
+  "timestamp": 1771938292040,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "Let's keep it inside the component",
+  "pastedContents": {},
+  "timestamp": 1771938392839,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "retry",
+  "pastedContents": {},
+  "timestamp": 1771938499518,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "retry",
+  "pastedContents": {},
+  "timestamp": 1771938529641,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "commit this",
+  "pastedContents": {},
+  "timestamp": 1771938693463,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771940327958,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "5229b4cd-4c32-4ac1-9480-0152efc2cbf5"
+}
+
+{
+  "display": "Let's dockerize the app. I want a docker-compose file that will build both FE and BE. I want the BE container to sync with the backend/data/db.json. So everything that will be updated via service in BE will get updated in the file on my host machine too. Is the other way around also work?\nOn the host machine FE port is 3000, BE port is 3001. \nLet's make a plan. Suggest me things and ask me anything for clarification.",
+  "pastedContents": {},
+  "timestamp": 1771940346771,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "52e7190e-76d4-4ac1-ae6c-bf4a938cc3f8"
+}
+
+{
+  "display": "Add the explanation steps for spining-up the docker containers. Also, let's update the README.md file so it matches the current state of the project. Let's make a plan. Ask me anything if needed.",
+  "pastedContents": {},
+  "timestamp": 1771941077794,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "52e7190e-76d4-4ac1-ae6c-bf4a938cc3f8"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771942395068,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "52e7190e-76d4-4ac1-ae6c-bf4a938cc3f8"
+}
+
+{
+  "display": "How can I export my previous conversation with you as .md files. Is it possible?",
+  "pastedContents": {},
+  "timestamp": 1771942432763,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "d6af3a64-a0ad-46ab-b77a-54ed5ce36ab4"
+}
+
+{
+  "display": "how do i select a conversation?",
+  "pastedContents": {},
+  "timestamp": 1771942531867,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "d6af3a64-a0ad-46ab-b77a-54ed5ce36ab4"
+}
+
+{
+  "display": "/resume ",
+  "pastedContents": {},
+  "timestamp": 1771942562851,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "06036491-de1d-489d-8f5c-4f0e888c7d7d"
+}
+
+{
+  "display": "/resume ",
+  "pastedContents": {},
+  "timestamp": 1771942622858,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "06036491-de1d-489d-8f5c-4f0e888c7d7d"
+}
+
+{
+  "display": "exit",
+  "pastedContents": {},
+  "timestamp": 1771943017145,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "38a98293-9976-4815-afe0-4d946a67b8ee"
+}
+
+{
+  "display": "/resume ",
+  "pastedContents": {},
+  "timestamp": 1771943028677,
+  "project": "/Users/maximdicusari/Documents/Git/customer-support-tickets",
+  "sessionId": "8931375e-a17b-4662-8c63-032d28bd98f7"
+}

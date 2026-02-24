@@ -25,7 +25,3 @@ backend/data/db.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-
-# Mine personal
-drafts.txt
