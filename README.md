@@ -129,6 +129,18 @@ Response shape:
 }
 ```
 
+## Steps to improve if I would have more time
+
+- Add a confirmation modal when deleting a ticket.
+- Store the search text and filters in the query params of the frontend app and populate them when a user pastes the URL in a new tab. This massively improves UX when links are shared between users or when the user navigates with the browser's Back and Forward buttons.
+- Add a separate ticket detail route with a comment section.
+- Add authentication.
+- Deploy on a real server.
+- Add a small set of essential E2E tests.
+- Add unit tests.
+- Create a route or a separate frontend app for testing purposes — specifically to mock what a given API request will respond with.
+- Add ESLint rules.
+
 ## AI development history
 
 | File / Folder              | Contents                                                  |
@@ -147,3 +159,12 @@ cd backend && npm start
 # Frontend
 cd frontend && npm run build   # output → frontend/dist/
 ```
+
+## Trade-offs
+
+- **CSS styles.** Given the time constraints and the limited scale of the project, simple LLM-generated CSS was used instead of a CSS or UI framework. For some components, style encapsulation based on component class names was applied — see the `components` folder. It is not the most robust solution, but at the current scale it is more than good enough.
+- **No strict file separation.** Since the app is small, components, styles, and helper functions were kept in the same file when there were not enough of them to justify splitting things out.
+- **No shared UI abstractions.** No generic button or input components were created, as there was not enough time and the number of occurrences did not warrant it.
+- **LLM-driven development.** Given the time constraints and the number of features to deliver, this was the most efficient way to ship the maximum amount of functionality in the minimum amount of time.
+- **No automated tests.** This is a significant omission, but given the time constraints, relying on manual testing felt the most appropriate for the current scope.
+- **lowdb as the database.** Given the requirements, `lowdb` was used as the database — essentially reading and writing a `.json` file on every CRUD operation. With larger datasets, indexing and caching would be needed.
